@@ -78,7 +78,6 @@ class _LoadStatementScreenState extends State<LoadStatementScreen> {
       );
     });
   }
-  
   Future<void> load_statement(Map<String, Map<String, dynamic>> items, StateSetter setState) async{
 
     Dio dio = Dio();
