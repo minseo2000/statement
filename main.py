@@ -37,8 +37,6 @@ def create_app():
         file_name = "거래 명세서 " + date + ".xlsx"
         store_name = account['name']
 
-
-
         t1 = threading.Thread(target=makeJpg(file_name=file_name, store_name=store_name, q=q), args=(q,))
         t1.start()
 
@@ -47,7 +45,7 @@ def create_app():
         result = q.get()
         print(result)
 
-        #pdf_path = makeJpg(file_name=file_name, store_name=store_name)
+        # pdf_path = makeJpg(file_name=file_name, store_name=store_name)
         '''
         import fitz
         doc = fitz.open(pdf_path+'.pdf')
@@ -56,7 +54,7 @@ def create_app():
             img_path = f"./이미지/{i}.png"
             img.save(img_path)
         '''
-        return send_file(result+'.pdf', mimetype='pdf')
+        return send_file(result + '.pdf', mimetype='pdf')
 
     return app
 
@@ -68,19 +66,19 @@ def makeJpg(file_name, store_name, q):
 
     excel.Visible = True
     # pdf로 변환할 파일명 선택
-    wb = excel.Workbooks.Open(os.getcwd()+"/거래명세서/"+file_name)
+    wb = excel.Workbooks.Open(os.getcwd() + "/거래명세서/" + file_name)
 
     # 워크북의 시트명 설정
     ws_sht = wb.Worksheets(store_name)
     # 설정한 시트 선택
     ws_sht.Select()
-    ws_sht.PageSetup.Orientation=1
+    ws_sht.PageSetup.Orientation = 1
     ws_sht.PageSetup.LeftMargin = 160
     ws_sht.PageSetup.TopMargin = 20
     ws_sht.PageSetup.BottomMargin = 20
     ws_sht.PageSetup.RightMargin = 20
     # PDF파일을 저장할 경로 및 파일명 지정
-    savepath = os.getcwd()+"/이미지/"+file_name
+    savepath = os.getcwd() + "/이미지/" + file_name
 
     # 활성화된 시트를 pdf 저장
     wb.ActiveSheet.ExportAsFixedFormat(0, savepath, IgnorePrintAreas=False)
@@ -95,7 +93,6 @@ def makeJpg(file_name, store_name, q):
 
 
 if __name__ == '__main__':
-
     host = input('호스트 IP를 입력하세요: ')
     port = int(input('포트번호를 입력하세요: '))
 
