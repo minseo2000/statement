@@ -5,35 +5,31 @@ import datetime
 
 # 전표 뼈대 생성 클래스   account = 거래처 이름,  phone_num 전화번호, location_place = 주소
 class Statement:
-    # 사업자 이름
-    NAME = "타르트에오"
-    # 사장님
-    CHAIRMAN = "정다정"
-    # 사업장 주소
-    LOCATION = "경주시 원효로87 타르트에오"
-    # 업 태
-    CATEGORY = "일반음식점"
-    # 종목
-    CATE = "카페"
-    # 사업자 번호
-    NUM = "275 09 01625"
+
+    ## 필드 변수
+
+
 
     # 오늘 날짜
     today = datetime.datetime.now()
-    #date = today.strftime("%Y%m%d%H%M%S")  # 오늘 연월일 날짜
-    #date_str = today.strftime("%Y%m%d%H%M%S")
-
+    save_path = today.strftime('%Y년 %m월 %d일')
     # 워크북 객체
     workbook = ""
 
     # sheet 객체
     intercell = ""
 
-    def __init__(self, date_str, date, path):  # constructor
+    def __init__(self, date_str, date, path, NAME, CHAIRMAN, CATEGORY, CATE, NUM, LOCATION):  # constructor
         print('생성완료!')
+        self.NAME = NAME
+        self.CHAIRMAN = CHAIRMAN
+        self.CATEGORY = CATEGORY
+        self.CATE = CATE
+        self.NUM = NUM
         self.date_str = date_str
         self.date = date
-        self.path = "거래 명세서 " + date + ".xlsx"
+        self.path = date + ".xlsx"
+        self.LOCATION = LOCATION
 
     def getConst(self):
         print(self.account)
@@ -41,15 +37,20 @@ class Statement:
         print(self.location_place)
 
     def make_new_workbook(self):
-
+        
+        if not os.path.exists(self.save_path):
+            os.mkdir(self.save_path)
+        else:
+            print('이미 존재')
+        
         isFile = False
-
-        for i in os.listdir(os.getcwd() + "/거래명세서"):
+        
+        for i in os.listdir(os.getcwd() + "/"+ self.save_path+'/'):
             if i == self.path:
                 isFile = True
 
         if isFile == True:
-            self.workbook = op.load_workbook(filename="거래명세서/" + self.path)
+            self.workbook = op.load_workbook(filename=self.save_path+"/" + self.path)
         else:
             self.workbook = op.Workbook()
 
@@ -617,7 +618,7 @@ class Statement:
         intercell.print_options.verticalCentered = True
         intercell.page_setup.orientation = intercell.ORIENTATION_LANDSCAPE
         intercell.page_setup.paperSize = intercell.PAPERSIZE_A4
-        self.workbook.save(os.getcwd() + "/거래명세서/" + self.path)
+        self.workbook.save(os.getcwd() + "/"+self.save_path+'/'+ self.path)
         return intercell
 
     # account 매개변수는 거래처 정보! -> 딕셔너리 타입!
@@ -662,5 +663,5 @@ class Statement:
         intercell['F32'] = "=SUM(F13:F31)"
         intercell['R32'] = "=SUM(F13:F31)"
 
-        self.workbook.save(os.getcwd() + "/거래명세서/" + self.path)
+        self.workbook.save(os.getcwd() + "/"+self.save_path+'/'+ self.path)
 
