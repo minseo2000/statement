@@ -655,13 +655,18 @@ class Statement:
         for i in range(1, item_len + 1):
             intercell['B' + str(i + 12)] = item['name'][i - 1]  # 품목 저장
             intercell['F' + str(i + 12)] = item['cnt'][i - 1]
+            intercell['G' + str(i + 12)] = item['price'][i - 1]
             intercell['N' + str(i + 12)] = item['name'][i - 1]  # 품목 저장
             intercell['R' + str(i + 12)] = item['cnt'][i - 1]
+            intercell['S' + str(i + 12)] = item['price'][i - 1]
 
+            print(item['price'])
         # 물건 수량 토탈 계산
 
         intercell['F32'] = "=SUM(F13:F31)"
         intercell['R32'] = "=SUM(F13:F31)"
+        intercell['G32'] = "=SUM(G13:G31)"
+        intercell['S32'] = "=SUM(G13:G31)"
 
         self.workbook.save(os.getcwd() + "/"+self.save_path+'/'+ self.path)
 
