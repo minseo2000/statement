@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import openpyxl as op
 import os
 import datetime
@@ -6,13 +7,9 @@ import datetime
 # 전표 뼈대 생성 클래스   account = 거래처 이름,  phone_num 전화번호, location_place = 주소
 class Statement:
 
-    ## 필드 변수
-
-
-
     # 오늘 날짜
     today = datetime.datetime.now()
-    save_path = today.strftime('%Y년 %m월 %d일')
+    save_path = today.strftime('%Y년 %m월 %d일'.encode('unicode-escape').decode()).encode().decode('unicode-escape')
     # 워크북 객체
     workbook = ""
 

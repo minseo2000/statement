@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 import os
 import statement
@@ -12,6 +13,7 @@ def create_app():
 
     @app.route('/load_statement', methods=['POST'])
     def load_statement():
+
         statement_info = request.json
 
         print(statement_info)
@@ -19,7 +21,7 @@ def create_app():
         account = statement_info['account']
         item = statement_info['item']
         today = datetime.datetime.now()
-        date = account['name']+" "+today.strftime("%H시 %M분 %S초")  # 오늘 연월일 날짜
+        date = account['name']+" "+today.strftime("%H시 %M분 %S초".encode('unicode-escape').decode()).encode().decode('unicode-escape')  # 오늘 연월일 날짜
         new_statement = statement.Statement(
             date=date,
             date_str=date,
@@ -63,6 +65,7 @@ def create_app():
             img_path = f"./pdf/{i}.png"
             img.save(img_path)
         '''
+
         return send_file(result + '.pdf', mimetype='pdf')
 
     return app
@@ -70,10 +73,14 @@ def create_app():
 def makeJpg(file_name, store_name, q):
 
 
+
+
     today = datetime.datetime.now()
 
-    save_path = today.strftime('%Y년 %m월 %d일')
+    save_path = today.strftime('%Y년 %m월 %d일'.encode('unicode-escape').decode()).encode().decode('unicode-escape')
 
+
+    print(save_path)
     if not os.path.exists(os.getcwd()+"/pdf"):
         # 폴더가 존재하지 않으면 새로운 폴더를 만듭니다.
         os.mkdir(os.getcwd()+"/pdf")
@@ -85,10 +92,13 @@ def makeJpg(file_name, store_name, q):
     if not os.path.exists(os.getcwd()+"/pdf/"+save_path):
         # 폴더가 존재하지 않으면 새로운 폴더를 만듭니다.
         os.mkdir(os.getcwd()+"/pdf/"+save_path)
-
     else:
         # 폴더가 이미 존재하면 사용자에게 알립니다.
         print(f" 폴더가 이미 존재합니다.")
+
+
+
+
 
 
 
